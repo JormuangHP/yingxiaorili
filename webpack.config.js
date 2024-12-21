@@ -10,7 +10,7 @@ module.exports = async function (env, argv) {
 
   // 配置 GitHub Pages 的 publicPath
   if (env.mode === 'production') {
-    config.output.publicPath = '/marketing-calendar/';
+    config.output.publicPath = '/yingxiaorili/';
   }
 
   return config;
