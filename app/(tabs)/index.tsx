@@ -13,11 +13,18 @@ interface ExtendedHolidayInfo extends HolidayInfo {
 
 export default function TabOneScreen() {
   const [selectedHoliday, setSelectedHoliday] = React.useState<HolidayInfo | null>(null);
-  const today = new Date().toISOString().split('T')[0];
-  
-  const todayHoliday = React.useMemo(() =>
-    getHolidayInfo(today), [today]);
-  
+  const [today, setToday] = React.useState('');
+  const [todayHoliday, setTodayHoliday] = React.useState<HolidayInfo | null>(null);
+
+  React.useEffect(() => {
+    // 获取本地时间的当前日期
+    const currentDate = new Date();
+    const formattedDate = currentDate.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '-');
+    setToday(formattedDate);
+    const holidayInfo = getHolidayInfo(formattedDate);
+    setTodayHoliday(holidayInfo);
+  }, []);
+
   // 获取未来30天的节日并按月份分组
   const upcomingHolidays = React.useMemo(() => {
     const nextMonth = new Date();
@@ -154,6 +161,7 @@ export default function TabOneScreen() {
     </ScrollView>
   );
 }
+
 
 const styles = StyleSheet.create({
   scrollContainer: {
