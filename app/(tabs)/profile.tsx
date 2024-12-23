@@ -1,13 +1,48 @@
 import * as React from 'react';
-import { StyleSheet, TouchableOpacity, View, Alert } from 'react-native';
+import type { ComponentType } from 'react';
+import { StyleSheet, TouchableOpacity, View as RNView, Alert, ViewStyle } from 'react-native';
 import { Text } from '../../components/Themed';
 import { getHolidayInfo } from '../../src/utils/holidayUtil';
+
+// 组件类型定义
+type ViewComponentType = ComponentType<{
+  style?: ViewStyle;
+  children: React.ReactNode;
+}>;
+
+type TouchableOpacityComponentType = ComponentType<{
+  style?: ViewStyle;
+  onPress?: () => void;
+  children: React.ReactNode;
+}>;
+
+type TextComponentType = ComponentType<{
+  style?: ViewStyle;
+  children: React.ReactNode;
+}>;
+
+// 组件转换
+const ViewComponent = RNView as ViewComponentType;
+const TouchableOpacityComponent = TouchableOpacity as TouchableOpacityComponentType;
+const TextComponent = Text as TextComponentType;
+
+// 类型定义
+interface HolidayData {
+  日期: string;
+  节日名称: string;
+  类型: string;
+  描述: string;
+  适合推广: string;
+  不适合推广: string;
+  活动建议: string;
+  [key: string]: string; // 索引签名，用于动态访问属性
+}
 
 export default function MyScreen() {
   const generateCSV = React.useCallback(() => {
     try {
       // 生成节日数据
-      const holidays = [];
+      const holidays: HolidayData[] = [];
       const startDate = new Date();
       const endDate = new Date();
       endDate.setFullYear(endDate.getFullYear() + 1);
@@ -57,20 +92,20 @@ export default function MyScreen() {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.content}>
-        <Text style={styles.title}>数据导出</Text>
-        <Text style={styles.description}>
+    <ViewComponent style={styles.container}>
+      <ViewComponent style={styles.content}>
+        <TextComponent style={styles.title}>数据导出</TextComponent>
+        <TextComponent style={styles.description}>
           导出未来一年的所有节日信息，包括节日描述和营销建议，生成CSV文件供下载使用。
-        </Text>
-        <TouchableOpacity 
+        </TextComponent>
+        <TouchableOpacityComponent 
           style={styles.exportButton}
           onPress={generateCSV}
         >
-          <Text style={styles.exportButtonText}>导出节日数据</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+          <TextComponent style={styles.exportButtonText}>导出节日数据</TextComponent>
+        </TouchableOpacityComponent>
+      </ViewComponent>
+    </ViewComponent>
   );
 }
 
@@ -107,4 +142,4 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
-}); 
+});

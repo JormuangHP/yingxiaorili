@@ -1,8 +1,18 @@
+// 修改：添加了 ComponentType 的导入和更详细的类型定义
 import * as React from 'react';
-import { StyleSheet, TouchableOpacity, Modal, View as RNView, ScrollView } from 'react-native';
+import type { ComponentType } from 'react';
+import {
+  StyleSheet,
+  TouchableOpacity,
+  Modal,
+  View as RNView,
+  ScrollView,
+  ViewStyle,
+} from 'react-native';
 import { Text, View } from '../../components/Themed';
 import { getHolidayInfo, HolidayInfo } from '../../src/utils/holidayUtil';
 
+// 新增：接口定义
 interface GroupedHolidays {
   [key: string]: (HolidayInfo & { date: string })[];
 }
@@ -11,21 +21,49 @@ interface ExtendedHolidayInfo extends HolidayInfo {
   date: string;
 }
 
+// 新增：组件类型定义
+type ScrollViewComponentType = ComponentType<{
+  style?: ViewStyle;
+  children: React.ReactNode;
+}>;
+
+type TouchableOpacityComponentType = ComponentType<{
+  style?: ViewStyle;
+  onPress?: () => void;
+  children: React.ReactNode;
+}>;
+
+type ModalComponentType = ComponentType<{
+  visible: boolean;
+  transparent?: boolean;
+  animationType?: 'none' | 'slide' | 'fade';
+  onRequestClose?: () => void;
+  children: React.ReactNode;
+}>;
+
+// 新增：组件转换
+const ScrollViewComponent = ScrollView as ScrollViewComponentType;
+const TouchableOpacityComponent = TouchableOpacity as TouchableOpacityComponentType;
+const ModalComponent = Modal as ModalComponentType;
+const RNViewComponent = RNView as ComponentType<{ style?: ViewStyle; children: React.ReactNode }>;
+
 export default function TabOneScreen() {
   const [selectedHoliday, setSelectedHoliday] = React.useState<HolidayInfo | null>(null);
   const [today, setToday] = React.useState('');
   const [todayHoliday, setTodayHoliday] = React.useState<HolidayInfo | null>(null);
 
   React.useEffect(() => {
-    // 获取本地时间的当前日期
     const currentDate = new Date();
-    const formattedDate = currentDate.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '-');
+    const formattedDate = currentDate.toLocaleDateString('zh-CN', { 
+      year: 'numeric', 
+      month: '2-digit', 
+      day: '2-digit' 
+    }).replace(/\//g, '-');
     setToday(formattedDate);
     const holidayInfo = getHolidayInfo(formattedDate);
     setTodayHoliday(holidayInfo);
   }, []);
 
-  // 获取未来30天的节日并按月份分组
   const upcomingHolidays = React.useMemo(() => {
     const nextMonth = new Date();
     nextMonth.setDate(nextMonth.getDate() + 30);
@@ -39,10 +77,10 @@ export default function TabOneScreen() {
         if (!results[monthKey]) {
           results[monthKey] = [];
         }
-        if (results[monthKey].length < 10) {  // 每月最多显示10个节日
+        if (results[monthKey].length < 10) {
           results[monthKey].push({
             ...holiday,
-            date: dateStr  // 添加日期信息
+            date: dateStr
           });
         }
       }
@@ -51,8 +89,9 @@ export default function TabOneScreen() {
     return results;
   }, [today]);
 
+  // 修改：使用新的组件类型
   return (
-    <ScrollView style={styles.scrollContainer}>
+    <ScrollViewComponent style={styles.scrollContainer}>
       <View style={styles.container}>
         {/* 今日节日提醒 */}
         <View style={styles.todayContainer}>
@@ -87,12 +126,12 @@ export default function TabOneScreen() {
                   ))}
                 </View>
               )}
-              <TouchableOpacity 
+              <TouchableOpacityComponent 
                 style={styles.moreButton}
                 onPress={() => setSelectedHoliday(todayHoliday)}
               >
-                <Text style={styles.moreButtonText}>查看详情</Text>
-              </TouchableOpacity>
+                <Text style={styles.buttonText}>查看详情</Text>
+              </TouchableOpacityComponent>
             </>
           ) : (
             <Text style={styles.holidayText}>今天没有特殊节日</Text>
@@ -106,7 +145,7 @@ export default function TabOneScreen() {
             <View key={month} style={styles.monthContainer}>
               <Text style={styles.monthTitle}>{month}</Text>
               {holidays.map((holiday: ExtendedHolidayInfo, index: number) => (
-                <TouchableOpacity 
+                <TouchableOpacityComponent 
                   key={index} 
                   style={styles.holidayItem}
                   onPress={() => setSelectedHoliday(holiday)}
@@ -118,7 +157,7 @@ export default function TabOneScreen() {
                                      holiday.type === 'international' ? '#52C41A' : 
                                      '#1890FF' }
                   ]} />
-                </TouchableOpacity>
+                </TouchableOpacityComponent>
               ))}
             </View>
           ))}
@@ -126,39 +165,43 @@ export default function TabOneScreen() {
       </View>
 
       {/* 节日详情弹窗 */}
-      <Modal
+      <ModalComponent
         visible={!!selectedHoliday}
         transparent
         animationType="fade"
         onRequestClose={() => setSelectedHoliday(null)}
       >
-        <RNView style={styles.modalOverlay}>
+        <RNViewComponent style={styles.modalOverlay}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>{selectedHoliday?.name}</Text>
-            <Text style={styles.modalDescription}>{selectedHoliday?.description}</Text>
-            
-            {selectedHoliday?.marketingAdvice && (
+            {selectedHoliday && (
               <>
-                <Text style={styles.modalSubtitle}>营销建议</Text>
-                <Text>适合推广：{selectedHoliday.marketingAdvice.suitable.join('、')}</Text>
-                <Text>不适合推广：{selectedHoliday.marketingAdvice.unsuitable.join('、')}</Text>
-                <Text style={styles.modalSubtitle}>活动建议</Text>
-                {selectedHoliday.marketingAdvice.suggestions.map((suggestion: string, index: number) => (
-                  <Text key={index}>• {suggestion}</Text>
-                ))}
+                <Text style={styles.modalTitle}>{selectedHoliday.name}</Text>
+                <Text style={styles.modalDescription}>{selectedHoliday.description}</Text>
+                
+                {selectedHoliday.marketingAdvice && (
+                  <>
+                    <Text style={styles.modalSubtitle}>营销建议</Text>
+                    <Text>适合推广：{selectedHoliday.marketingAdvice.suitable.join('、')}</Text>
+                    <Text>不适合推广：{selectedHoliday.marketingAdvice.unsuitable.join('、')}</Text>
+                    <Text style={styles.modalSubtitle}>活动建议</Text>
+                    {selectedHoliday.marketingAdvice.suggestions.map((suggestion: string, index: number) => (
+                      <Text key={index}>• {suggestion}</Text>
+                    ))}
+                  </>
+                )}
+                
+                <TouchableOpacityComponent 
+                  style={styles.closeButton}
+                  onPress={() => setSelectedHoliday(null)}
+                >
+                  <Text style={styles.closeButtonText}>关闭</Text>
+                </TouchableOpacityComponent>
               </>
             )}
-            
-            <TouchableOpacity 
-              style={styles.closeButton}
-              onPress={() => setSelectedHoliday(null)}
-            >
-              <Text style={styles.closeButtonText}>关闭</Text>
-            </TouchableOpacity>
           </View>
-        </RNView>
-      </Modal>
-    </ScrollView>
+        </RNViewComponent>
+      </ModalComponent>
+    </ScrollViewComponent>
   );
 }
 
