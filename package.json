@@ -9,7 +9,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "build:web": "npx expo export -p web",
-    "deploy": "cross-env PUBLIC_URL=https://jormuanghp.github.io/yingxiaorili expo export -p web --output-dir dist && echo.> dist/.nojekyll && gh-pages -d dist",
+    "deploy": "cross-env EXPO_PUBLIC_URL=/yingxiaorili expo export -p web --output-dir dist && echo.> dist/.nojekyll && gh-pages -d dist",
     "test": "jest --watchAll"
   },
   "jest": {
