@@ -26,7 +26,15 @@
       "bundler": "metro",
       "output": "static",
       "favicon": "./assets/images/favicon.png",
-      "publicPath": "/yingxiaorili/"
+      "publicPath": "/yingxiaorili/",
+      "build": {
+        "babel": {
+          "include": [
+            "@expo/vector-icons",
+            "react-native-vector-icons"
+          ]
+        }
+      }
     },
     "plugins": [
       "expo-router"
