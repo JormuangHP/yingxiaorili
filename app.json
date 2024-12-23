@@ -36,12 +36,13 @@
         }
       }
     },
-
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "fonts": [
       "./assets/fonts/SpaceMono-Regular.ttf",
       "./node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/FontAwesome.ttf"
     ],
-    
     "plugins": [
       "expo-router"
     ],
