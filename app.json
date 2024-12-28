@@ -26,7 +26,7 @@
       "bundler": "metro",
       "output": "static",
       "favicon": "./assets/images/favicon.png",
-      "publicPath": "/yingxiaorili/",
+      "publicPath": "/",
       "build": {
         "babel": {
           "include": [
