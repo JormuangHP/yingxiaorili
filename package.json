@@ -2,7 +2,7 @@
   "name": "marketing-calendar",
   "main": "expo-router/entry",
   "version": "1.0.0",
-  "homepage": "https://jormuanghp.github.io",
+  "homepage": "https://jormuanghp.github.io/yingxiaorili",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
