@@ -15,7 +15,7 @@
     },
     "extra": {
       "router": {
-        "basePath": "/yingxiaorili"
+        "basePath": "/yingxiaorili/"
       }
     },
     "ios": {
