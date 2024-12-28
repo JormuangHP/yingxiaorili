@@ -13,11 +13,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "extra": {
-      "router": {
-        "basePath": "/yingxiaorili/"
-      }
-    },
+
     "ios": {
       "supportsTablet": true
     },
@@ -31,7 +27,7 @@
       "bundler": "metro",
       "output": ".",
       "favicon": "./favicon.png",
-
+      "publicPath": "/yingxiaorili/", 
       "build": {
         "babel": {
           "include": [
