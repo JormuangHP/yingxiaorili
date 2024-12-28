@@ -13,7 +13,7 @@ module.exports = async function (env, argv) {
   }, argv);
 
   // 配置 GitHub Pages 的 publicPath
-  //config.output.publicPath = '/yingxiaorili/';
+  config.output.publicPath = '/yingxiaorili/';
 
   // 添加字体文件支持
   config.module.rules.push({
