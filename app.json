@@ -24,9 +24,9 @@
     },
     "web": {
       "bundler": "metro",
-      "output": "static",
-      "favicon": "./assets/images/favicon.png",
-      "publicPath": "/",
+      "output": ".",
+      "favicon": "./favicon.png",
+      "publicPath": "/yingxiaorili/",
       "build": {
         "babel": {
           "include": [
@@ -37,7 +37,8 @@
       }
     },
     "assetBundlePatterns": [
-      "**/*"
+      "assets/**/*",
+      "node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/*.ttf"
     ],
     "fonts": [
       "./assets/fonts/SpaceMono-Regular.ttf",
