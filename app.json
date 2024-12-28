@@ -36,9 +36,8 @@
         }
       }
     },
-    "assetBundlePatterns": [
-      "assets/**/*",
-      "node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/*.ttf"
+     "assetBundlePatterns": [
+      "**/*"
     ],
     "fonts": [
       "./assets/fonts/SpaceMono-Regular.ttf",
