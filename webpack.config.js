@@ -1,4 +1,5 @@
 const createExpoWebpackConfigAsync = require('@expo/webpack-config');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = async function (env, argv) {
   const config = await createExpoWebpackConfigAsync({
@@ -12,8 +13,18 @@ module.exports = async function (env, argv) {
     }
   }, argv);
 
+  const { paths } = config;
+
   // 配置 GitHub Pages 的 publicPath
   config.output.publicPath = '/yingxiaorili/';
+
+  // 添加 HtmlWebpackPlugin
+  config.plugins.push(
+    new HtmlWebpackPlugin({
+      template: paths.appIndexJs,
+      publicPath: '/yingxiaorili/'
+    })
+  );
 
   // 添加字体文件支持
   config.module.rules.push({
@@ -22,8 +33,8 @@ module.exports = async function (env, argv) {
       loader: 'file-loader',
       options: {
         name: '[name].[hash].[ext]',
-        outputPath: 'assets/fonts/',
-        publicPath: '/yingxiaorili/assets/fonts/'
+        outputPath: 'fonts/', // 相对 output.path 的路径
+        publicPath: '/yingxiaorili/fonts/'
       }
     }
   });
