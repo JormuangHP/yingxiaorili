@@ -18,19 +18,20 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Install dependencies (with update)
+        run: | # 使用多行命令
+          npm install --legacy-peer-deps # 先尝试安装，忽略 peerDependencies 错误
+          npm update @expo/webpack-config # 更新 @expo/webpack-config
 
-      # 添加诊断步骤
       - name: Expo Diagnostics
-        run: npx expo diagnostics
+        run: npx expo diagnostics # 运行诊断命令
 
-      - name: Build web app (尝试使用 export:web)
-        run: npx expo export:web # 尝试使用 export:web 命令
+      - name: Build web app
+        run: npx expo export:web # 或 npm run build:web (如果 diagnostics 显示 build:web 可用)
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
-        if: success() # 仅在前一个步骤成功时运行
+        if: success()
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./web-build
