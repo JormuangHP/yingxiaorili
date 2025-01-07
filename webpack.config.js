@@ -16,13 +16,13 @@ module.exports = async function (env, argv) {
   const { paths } = config;
 
   // 配置 GitHub Pages 的 publicPath
-  config.output.publicPath = '/yingxiaorili/';
+  config.output.publicPath = './yingxiaorili/';
 
   // 添加 HtmlWebpackPlugin
   config.plugins.push(
     new HtmlWebpackPlugin({
       template: paths.appIndexJs,
-      publicPath: '/yingxiaorili/'
+      publicPath: './yingxiaorili/'
     })
   );
 
@@ -34,7 +34,7 @@ module.exports = async function (env, argv) {
       options: {
         name: '[name].[hash].[ext]',
         outputPath: 'fonts/', // 相对 output.path 的路径
-        publicPath: '/yingxiaorili/fonts/'
+        publicPath: './yingxiaorili/fonts/'
       }
     }
   });
