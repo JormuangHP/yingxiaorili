@@ -9,7 +9,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "build:web": "expo build:web",
-    "deploy": "gh-pages -d web-build" 
+    "deploy": "gh-pages -d web-build",
     "test": "jest --watchAll"
   },
   "jest": {
