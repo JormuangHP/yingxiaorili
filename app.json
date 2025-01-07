@@ -27,7 +27,6 @@
       "bundler": "metro",
       "output": ".",
       "favicon": "./favicon.png",
-      "publicPath": "./", 
       "build": {
         "babel": {
           "include": [
