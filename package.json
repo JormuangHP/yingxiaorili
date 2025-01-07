@@ -8,8 +8,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "build:web": "npx expo export -p web",
-    "deploy": "cross-env EXPO_PUBLIC_URL=/yingxiaorili expo export -p web --output-dir dist && echo.> dist/.nojekyll && gh-pages -d dist -b gh-pages",
+    "build:web": "expo build:web",
+    "deploy": "gh-pages -d web-build" 
     "test": "jest --watchAll"
   },
   "jest": {
