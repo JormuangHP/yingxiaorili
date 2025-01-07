@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Deploy Web
 
 on:
   push:
@@ -7,25 +7,31 @@ on:
 
 jobs:
   deploy:
+    name: Deploy to GitHub Pages
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: 18
 
-      - name: Install Dependencies
-        run: npm install --legacy-peer-deps
+      - name: Install dependencies
+        run: npm ci
 
-      - name: Build Website
-        run: npm run build:web
+      # 添加诊断步骤
+      - name: Expo Diagnostics
+        run: npx expo diagnostics
+
+      - name: Build web app (尝试使用 export:web)
+        run: npx expo export:web # 尝试使用 export:web 命令
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
+        if: success() # 仅在前一个步骤成功时运行
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          publish_dir: ./web-build
           publish_branch: gh-pages
-
