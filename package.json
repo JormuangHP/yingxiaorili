@@ -2,7 +2,7 @@
   "name": "全年营销日历",
   "main": "expo-router/entry",
   "version": "1.0.0",
-  "homepage": "https://jormuanghp.github.io/yingxiaorili",
+  "homepage": "https://jormuanghp.github.io/yingxiaorili/",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
