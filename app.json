@@ -26,8 +26,8 @@
     "web": {
       "bundler": "metro",
       "output": ".",
-      "favicon": "./favicon.png",
-      "publicPath": "/yingxiaorili/", 
+      "favicon": "./yingxiaorili/favicon.png",
+      "publicPath": "./yingxiaorili/", 
       "build": {
         "babel": {
           "include": [
@@ -39,11 +39,11 @@
     },
     "assetBundlePatterns": [
       "assets/**/*",
-      "node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/*.ttf"
+      "./yingxiaorili/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/*.ttf"
     ],
     "fonts": [
-      "./assets/fonts/SpaceMono-Regular.ttf",
-      "./node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/FontAwesome.ttf"
+      "./yingxiaorili/assets/fonts/SpaceMono-Regular.ttf",
+      "./yingxiaorili/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/FontAwesome.ttf"
     ],
     "plugins": [
       "expo-router"
